@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1461846977 source:/home/subtselnyi/labaOP/lab8OP/main.cpp
+	<iostream>
+	<stdio.h>
+	"header.h"
+	<errno.h>
+	<cstring>
+	<istream>
+
+1461847200 source:/home/subtselnyi/labaOP/lab8OP/header.cpp
+	<iostream>
+	<stdio.h>
+	<errno.h>
+	<cstring>
+	<istream>
+
+1461786973 /home/subtselnyi/labaOP/lab8OP/header.h
+	<iostream>
+	<stdio.h>
+	<errno.h>
+	<cstring>
+	<istream>
+

@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1463581467 source:/home/subtselnyi/labaOP/lab9/main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	<string.h>
+	<cstdio>
+	<string>
+
