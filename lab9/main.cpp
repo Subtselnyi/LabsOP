@@ -30,6 +30,7 @@ catalog tempForRecords = {"","",0,"","","",0,0,"",""};
 
 
 vector <catalog> dataBase;
+vector <catalog> BookAuthor;
 
 
 void showBooks();
@@ -42,11 +43,14 @@ void generateCatalog();
 void showMagazines();
 void toBinaryFile();
 
-
-
+void OutputBookAuthor();
+void createBinary();
 
 
 int main() {
+
+    setlocale(LC_ALL, "Russian");
+
 	dataBase.reserve(100);
 
 while (true)
@@ -54,15 +58,16 @@ while (true)
 
        	printMenu();
         char ch = getchar();
-        system("clear");
+        //system("clear");
 
         switch (ch)
         {
-            case '1': showCatalog(); break;  //Р’С‹РІРѕРґ РІ Р°Р»С„Р°РІС‚РёРЅРѕРј РїРѕСЂСЏРґРєРµ РєРЅРёРі СѓРєР°Р·Р°РЅРЅРѕРіРѕ Р°РІС‚РѕСЂР°, РІС‹РґР°РЅРЅС‹С… РІ СѓРєР°Р·Р°РЅРЅС‹Р№ РїРµСЂРёРѕРґ
-            case '2': generateCatalog(); break;  //Р“РµРЅРµСЂР°С†РёСЏ РєР°С‚Р°Р»РѕРіР°
-            case '3': showMagazines(); break;  //РџРѕРєР°Р·Р°С‚СЊ РіР°Р·РµС‚С‹ Рё Р¶СѓСЂРЅР°Р»С‹
-           // case '4': showCatalog(); break; //Р’С‹РІРѕРґ Р‘Р” РІ РєРѕРЅСЃРѕР»СЊ
-           // case '5': toBinaryFile(); break; //РІС‹РІРѕРґ РІ Р±РёРЅР°СЂРЅРёРє
+            case '1': showCatalog(); break;  //Вывод в алфавтином порядке книг указанного автора, выданных в указанный период
+            case '2': generateCatalog(); break;  //Генерация каталога
+            case '3': showMagazines(); break;  //Показать газеты и журналы
+            case '5': createBinary(); break; //Вывод БД в консоль
+           // case '5': toBinaryFile(); break; //вывод в бинарник
+            case '4': OutputBookAuthor(); break;
             case 'q': return 0; break;
             case 'Q': return 0; break;
             default: printf("");
@@ -82,16 +87,19 @@ void printMenu() {
     printf("2: Generate Catalog\n");
     printf("3: Ukrainian media\n");
     printf("4: Show catalog\n");
-    printf("5: Edit user\n");
+    printf("5: Create Binary\n");
+    printf("6: Output Book \n");
+
+
     printf("Q: Exit.\n");
     printf("**************\n");
 }
 
 
 
-void showCatalog() {  //Р’С‹РІРѕРґ С‚Р°Р±Р»РёС†С‹
+void showCatalog() {  //Вывод таблицы
 
-printf("%-25s%-25s%-15s%-20s%-25s%-25s%-10s%-25s%-20s%-20s\n\n\n", "РўРёРї", "РќР°Р·РІР°РЅРёРµ", "в„–", "РЇР·С‹Рє", "РђРІС‚РѕСЂ", "Р–Р°РЅСЂ", "Р“РѕРґ", "РР·РґР°РЅРёРµ в„–", "РўРµРјР°", "Р”Р°С‚Р°" );
+printf("%-25s%-25s%-15s%-20s%-25s%-25s%-10s%-25s%-20s%-20s\n\n\n", "Тип", "Название", "№", "Язык", "Автор", "Жанр", "Год", "Издание №", "Тема", "Дата" );
 
 	for (int i=0; i<dataBase.size(); ++i) {
 		printf("%-20s%-20s%-10d%-20s%-20s%-20s%-10d%-10d%-20s%-20s\n", dataBase[i].type.c_str(), dataBase[i].name.c_str(), dataBase[i].number, dataBase[i].lang.c_str(), dataBase[i].author.c_str(), dataBase[i].genre.c_str(), dataBase[i].year, dataBase[i].countNumber, dataBase[i].theme.c_str(), dataBase[i].date.c_str() );
@@ -112,7 +120,7 @@ printf("%-25s%-25s%-15s%-20s%-25s%-25s%-10s%-25s%-20s%-20s\n\n\n", "РўРёРї", "Рќ
     string theme; //Magazines and newspapers
     string date;  */
 
-void generateCatalog() {     //РђРІС‚Рѕ-РіРµРЅРµСЂР°С†РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+void generateCatalog() {     //Авто-генерация пользователей
 
 const int types = 3;
 const int bookNames = 7;
@@ -179,16 +187,16 @@ const int dates = 5;
 
 string typicalAuthors[authors] =
     {
-        "Author 1",
-        "Author 2",
-        "Author 3",
-        "Author 4",
-        "Author 5",
-        "Author 6",
-        "Author 7",
-        "Author 8",
-        "Author 9",
-        "Author 10"
+        "Author1",
+        "Author2",
+        "Author3",
+        "Author4",
+        "Author5",
+        "Author6",
+        "Author7",
+        "Author8",
+        "Author9",
+        "Author10"
     };
 
 
@@ -254,7 +262,7 @@ int n;
 //string surname;
 //int year;
 
-cout<<"РЎРєРѕР»СЊРєРѕ Р·Р°РїРёСЃРµР№ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ? "; cin>>n;
+cout<<"Сколько записей генерировать? "; cin>>n;
     for (int i=0;i<n;i++) {
         int fuck = (rand() % 3) + 1;
 
@@ -305,7 +313,7 @@ cout<<"РЎРєРѕР»СЊРєРѕ Р·Р°РїРёСЃРµР№ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ? "; cin>>n;
 
 
 
-printf("Р—Р°РїРёСЃРё РґРѕР±Р°РІР»РµРЅС‹ РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…\n");
+printf("Записи добавлены в базу данных\n");
 
 }
 
@@ -321,11 +329,103 @@ void showMagazines(){
             countN++;
         }
     }
-    cout<<"РєРѕР»РёС‡РµСЃС‚РІРѕ Р¶СѓСЂРЅР°Р»РѕРІ СѓРєСЂР°РёРЅСЃРєРѕРіРѕ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ "<<countM<<endl;
-    cout<<"РєРѕР»РёС‡РµСЃС‚РІРѕ РіР°Р·РµС‚ СѓРєСЂР°РёРЅСЃРєРѕРіРѕ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ "<<countN<<endl;
+    cout<<"количество журналов украинского производителя "<<countM<<endl;
+    cout<<"количество газет украинского производителя "<<countN<<endl;
 
 }
 
-void createBinar(int nyear){
+void OutputBookAuthor(){
+    string Author;
+    int amount = 0;
+    printf("\nВведіть автора\n");
+    cin >> Author;
+
+    int first_year;
+    int second_year;
+
+    printf("\nВведіть початок проміжку\n");
+    cin >> first_year;
+
+    printf("\nВведіть кінець проміжку\n");
+    cin >> second_year;
+
+
+    BookAuthor.reserve(100);
+
+    for(int i = 0; i < dataBase.size(); i++){
+        if(dataBase[i].type == "book" && Author == dataBase[i].author && dataBase[i].year > first_year && dataBase[i].year < second_year){
+            amount++;
+            catalog temp = {dataBase[i].type, dataBase[i].name, dataBase[i].number,  dataBase[i].lang, dataBase[i].author, dataBase[i].genre, dataBase[i].year, -1, "", ""};
+            BookAuthor.push_back(temp);
+        }
+    }
+
+    for (int i = 0; i < BookAuthor.size(); i++){
+		for (int j = BookAuthor.size() - 1; j > i; j--) {     // внутренний цикл прохода
+			if (BookAuthor[j - 1].name > BookAuthor[j].name) {
+				swap(BookAuthor[j - 1].type, BookAuthor[j].type);
+				swap(BookAuthor[j - 1].name, BookAuthor[j].name);
+				swap(BookAuthor[j - 1].number, BookAuthor[j].number);
+				swap(BookAuthor[j - 1].lang, BookAuthor[j].lang);
+				swap(BookAuthor[j - 1].author, BookAuthor[j].author);
+				swap(BookAuthor[j - 1].genre, BookAuthor[j].genre);
+				swap(BookAuthor[j - 1].year, BookAuthor[j].year);
+			}
+        }
+
+	}
+
+	printf("%-25s%-25s%-15s%-20s%-25s%-25s%-10s%-25s%-20s%-20s\n\n\n", "Тип", "Название", "№", "Язык", "Автор", "Жанр", "Год", "Издание №", "Тема", "Дата" );
+
+	for (int i = 0; i<BookAuthor.size(); ++i) {
+		printf("%-20s%-20s%-10d%-20s%-20s%-20s%-10d%-10d%-20s%-20s\n", BookAuthor[i].type.c_str(), BookAuthor[i].name.c_str(), BookAuthor[i].number, BookAuthor[i].lang.c_str(), BookAuthor[i].author.c_str(), BookAuthor[i].genre.c_str(), BookAuthor[i].year, BookAuthor[i].countNumber, BookAuthor[i].theme.c_str(), BookAuthor[i].date.c_str() );
+	}
+    printf("\nAmount = %d\n", amount);
+}
+
+void createBinary(){
+
+    int first_year;
+    int second_year;
+    int amount = 0;
+    printf("\nВведіть початок проміжку\n");
+    cin >> first_year;
+
+    printf("\nВведіть кінець проміжку\n");
+    cin >> second_year;
+
+    BookAuthor.reserve(100);
+
+    for(int i = 0; i < dataBase.size(); i++){
+        if(dataBase[i].lang == "English" && dataBase[i].year > first_year && dataBase[i].year < second_year){
+            amount++;
+            catalog temp = {dataBase[i].type, dataBase[i].name, dataBase[i].number,  dataBase[i].lang, dataBase[i].author, dataBase[i].genre, dataBase[i].year, -1, "", ""};
+            BookAuthor.push_back(temp);
+        }
+    }
+
+     for (int i = 0; i < BookAuthor.size(); i++){
+		for (int j = BookAuthor.size() - 1; j > i; j--) {     // внутренний цикл прохода
+			if (BookAuthor[j - 1].type > BookAuthor[j].type) {
+				swap(BookAuthor[j - 1].type, BookAuthor[j].type);
+				swap(BookAuthor[j - 1].name, BookAuthor[j].name);
+				swap(BookAuthor[j - 1].number, BookAuthor[j].number);
+				swap(BookAuthor[j - 1].lang, BookAuthor[j].lang);
+				swap(BookAuthor[j - 1].author, BookAuthor[j].author);
+				swap(BookAuthor[j - 1].genre, BookAuthor[j].genre);
+				swap(BookAuthor[j - 1].year, BookAuthor[j].year);
+			}
+        }
+
+	}
+
+	FILE *f;
+	f= fopen("output","wb+");
+	for (int i=0;i<BookAuthor.size(); i++){
+        fwrite((char*)&BookAuthor[i],sizeof(BookAuthor[i]),i,f);
+	}
+	fclose(f);
+
+
 
 }
